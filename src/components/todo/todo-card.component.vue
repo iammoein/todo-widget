@@ -1,20 +1,14 @@
 <template>
   <div class="todo-card">
-    <div class="todo-card__folder" v-if="folderName.length">
-      <div>
-        <BaseIcon :icon="folderIcon" size="16" />
-      </div>
-      <h6 class="todo-card__folder-title">{{ folderName }}</h6>
-    </div>
     <div class="todo-card__content">
-      <TodoCheckbox @checked="toggleCheckCard" />
-      <TodoInput
-        ref="inputRef"
-        @enter="handleAddCard"
-        @delete="handleDeleteCard"
-        v-model="model"
-        :checked="checkedCard"
-      />
+        <TodoCheckbox @checked="toggleCheckCard" />
+        <TodoInput
+          ref="inputRef"
+          @enter="handleAddCard"
+          @delete="handleDeleteCard"
+          v-model="model"
+          :checked="checkedCard"
+        />
     </div>
   </div>
 </template>
@@ -23,8 +17,6 @@
 import { ref } from "vue";
 import TodoInput from "./todo-input.component.vue";
 import TodoCheckbox from "./todo-checkbox.component.vue";
-import BaseIcon from "../common/base-icon.component.vue";
-import folderIcon from "../icons/folder.icon.vue";
 
 const model = defineModel();
 
@@ -36,10 +28,6 @@ const props = defineProps({
   index: {
     type: Number,
     default: 0,
-  },
-  folderName: {
-    type: String,
-    default: "",
   },
 });
 
@@ -75,18 +63,6 @@ const toggleCheckCard = () => {
 
   background-color: $neutral-surface;
   border-radius: $radius-lg;
-
-  &__folder {
-    @include flex($justify: flex-start);
-    gap: space(2);
-  }
-
-  &__folder-title {
-    color: $neutral-on-surface;
-
-    font-size: rem(14);
-    font-weight:normal;
-  }
 
   &__content {
     @include flex($justify: flex-start);

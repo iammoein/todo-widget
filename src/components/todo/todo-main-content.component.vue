@@ -17,12 +17,12 @@
       <template v-if="todoStore.currentCategory === 'all'">
         <li
           class="todo-main__category-todo"
-          v-for="[category, todos] in todoStore.todoList"
+          v-for="[category, todos] in categoris"
           :key="category"
         >
-          <TodoCard
+          <TodoCategory
+            :todos="todos"
             :folder-name="todoStore.getCategoryName(category)"
-            :todo="todos"
           />
         </li>
       </template>
@@ -31,14 +31,19 @@
 </template>
 
 <script setup>
-import { nextTick } from "vue";
+import { computed, nextTick } from "vue";
+import { useTodoStore } from "@/stores/todo.store.js";
 import TodoCard from "./todo-card.component.vue";
 
-import { useTodoStore } from "@/stores/todo.store.js";
+import TodoCategory from "./todo-category.component.vue";
 
 const cardRef = new Map();
 
 const todoStore = useTodoStore();
+
+const categoris = computed(() =>
+  [...todoStore.todoList].filter(([category]) => category !== "all"),
+);
 
 const setCardRef = (el, id) => {
   if (el) cardRef.set(id, el);
@@ -51,13 +56,13 @@ const handleAddCard = async () => {
 
   const list = todoStore.todoList.get(todoStore.currentCategory);
   const newId = list.at(-1)?.id;
-  
+
   cardRef.get(newId)?.focus();
 };
 
 const handleDeleteCard = async (id) => {
   const list = todoStore.todoList.get(todoStore.currentCategory);
-  const index = list.findIndex(todo => todo.id === id);
+  const index = list.findIndex((todo) => todo.id === id);
   const focusId = list[index - 1]?.id || list[index + 1]?.id;
 
   list.splice(index, 1);
@@ -66,7 +71,6 @@ const handleDeleteCard = async (id) => {
 
   cardRef.get(focusId)?.focus();
 };
-
 </script>
 
 <style lang="scss" scoped>
