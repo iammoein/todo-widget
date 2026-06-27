@@ -1,0 +1,39 @@
+@use "../abstracts" as abs;
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: abs.$spacing-md;
+}
+
+h1 { font-size: abs.rem(40); }
+h2 { font-size: abs.rem(32); }
+h3 { font-size: abs.rem(28); }
+h4 { font-size: abs.rem(24); }
+h5 { font-size: abs.rem(20); }
+h6 { font-size: abs.rem(16); }
+
+@include abs.respond(md) {
+  h1 { font-size: abs.rem(34); }
+  h2 { font-size: abs.rem(28); }
+  h3 { font-size: abs.rem(24); }
+  h4 { font-size: abs.rem(20); }
+  h5 { font-size: abs.rem(18); }
+  h6 { font-size: abs.rem(15); }
+}
+
+@include abs.respond(sm) {
+  h1 { font-size: abs.rem(30); }
+  h2 { font-size: abs.rem(24); }
+  h3 { font-size: abs.rem(22); }
+  h4 { font-size: abs.rem(18); }
+  h5 { font-size: abs.rem(16); }
+  h6 { font-size: abs.rem(14); }
+}
+
+
+button, input, textarea, select {
+  font-family: inherit; 
+  font-feature-settings: "ss01"; 
+}

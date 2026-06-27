@@ -1,0 +1,31 @@
+@use "sass:map";
+@use "variables" as var;
+
+@mixin flex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin respond($breakpoint) {
+  $size: map.get(var.$breakpoints, $breakpoint);
+
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+@mixin button-reset($background: transparent) {
+  background: $background;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+@mixin line-clamp($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

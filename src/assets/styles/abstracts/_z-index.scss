@@ -1,0 +1,36 @@
+@use "sass:map";
+
+$z-index: (
+  auto: auto,
+
+  // Base UI elements
+  base: 1,
+  dots: 10,
+  badge: 20,
+  sticky: 30,
+
+  // Floating UI components
+  dropdown: 100,
+  popover: 120,
+  tooltip: 150,
+
+  // Layout overlays
+  overlay: 500,
+  sidebar: 600,
+
+  // Major UI blocks
+  modal: 1000,
+  dialog: 1100,
+
+  // Global attention layers
+  toast: 2000,
+  snackbar: 2100,
+  notification: 2200,
+
+  // Highest-ever emergency layer
+  max: 9999
+);
+
+@function z($key) {
+  @return map.get($z-index, $key);
+}

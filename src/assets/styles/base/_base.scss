@@ -1,0 +1,10 @@
+@use "../abstracts" as abs;
+
+body {
+  font-family: abs.$font-family;
+  font-size: abs.rem(14);
+  line-height: 1.6;
+  color: abs.$gray-800;
+  background-color: abs.$gray-200;
+  font-feature-settings: "ss01";
+}
