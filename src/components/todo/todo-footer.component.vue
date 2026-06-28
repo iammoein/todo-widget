@@ -6,26 +6,48 @@
       </span>
     </button>
     <div class="todo-footer__progress-container">
-      <progress
-        class="todo-footer__progress-bar"
-        value="70"
-        max="100"
-      ></progress>
+      <div class="todo-footer__progress-bar">
+        <div
+          class="todo-footer__progress"
+          :style="{ width: percentageCheckedTodo + '%' }"
+        ></div>
+      </div>
+      <div class="todo-footer__percentage-container">
+        <p>{{ totoalCheckedTodos }} از {{ totoalTodos }}</p>
+        <p>{{ percentageCheckedTodo }}٪</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useTodoStore } from "@/stores/todo.store";
+
 import BaseIcon from "@/components/common/base-icon.component.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
 
-import { useTodoStore } from "@/stores/todo.store";
 
 const todoStore = useTodoStore();
 
 const handleAddTodo = () => {
   todoStore.addTodo();
 };
+
+const totoalTodos = computed(() => {
+  return todoStore.todoList.get(todoStore.currentCategory).length;
+});
+
+const totoalCheckedTodos = computed(() => {
+  return todoStore.todoList
+    .get(todoStore.currentCategory)
+    .reduce((count, todo) => (todo.checked ? count + 1 : count), 0);
+});
+
+const percentageCheckedTodo = computed(() => {
+  if (totoalTodos.value === 0) return 0;
+  return Math.floor((totoalCheckedTodos.value / totoalTodos.value) * 100);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -43,23 +65,27 @@ const handleAddTodo = () => {
     width: rem(299);
     height: rem(6);
 
-    appearance: none;
-    border: none;
+    background-color: $neutral-outline;
+    border-radius: $radius-pill;
+  }
 
-    &::-webkit-progress-bar {
-      background-color: $neutral-outline;
-      border-radius: $radius-pill;
-    }
+  &__progress {
+    width: 100%;
+    height: 100%;
 
-    &::-webkit-progress-value {
-      background: #ffb4a8;
-      background: linear-gradient(
-        90deg,
-        rgba(255, 180, 168, 1) 0%,
-        rgba(170, 199, 255, 1) 100%
-      );
-      border-radius: $radius-pill;
-    }
+    background: #ffb4a8;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 180, 168, 1) 0%,
+      rgba(170, 199, 255, 1) 100%
+    );
+    border-radius: $radius-pill;
+    transition: width 500ms ease;
+  }
+
+  &__percentage-container {
+    @include flex($justify: space-between);
+    font-size: rem(12);
   }
 
   &__plus {
@@ -67,7 +93,7 @@ const handleAddTodo = () => {
 
     position: absolute;
     left: 0;
-    top: -20px;
+    top: -25px;
 
     width: rem(40);
     height: rem(40);
