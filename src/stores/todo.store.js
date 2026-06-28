@@ -32,55 +32,80 @@ const mockTodo = [
   },
 ];
 
-export const useTodoStore = defineStore("todo", () => {
-  const categoryList = ref([...mockCategory]);
-  const todoList = ref(
-    new Map(categoryList.value.map((category) => [category.id, []])),
-  );
-  const colorIndex = ref(2);
-  const currentCategory = ref("all");
+export const useTodoStore = defineStore(
+  "todo",
+  () => {
+    const categoryList = ref([...mockCategory]);
+    const todoList = ref(
+      new Map(categoryList.value.map((category) => [category.id, []])),
+    );
+    const colorIndex = ref(2);
+    const currentCategory = ref("all");
 
-  const addTodo = (text) => {
-    todoList.value
-      .get(currentCategory.value)
-      ?.push({ id: Date.now(), text, checked: false });
-  };
+    const addTodo = (text) => {
+      todoList.value
+        .get(currentCategory.value)
+        ?.push({ id: Date.now(), text, checked: false });
+    };
 
-  const addCategory = (name) => {
-    const color = CATEGORY_COLORS[colorIndex.value % CATEGORY_COLORS.length];
-    colorIndex.value++;
-    const categoryId = Date.now();
-    categoryList.value.push({
-      id: categoryId,
-      name,
-      color,
-    });
-    todoList.value.set(categoryId, []);
-  };
+    const addCategory = (name) => {
+      const color = CATEGORY_COLORS[colorIndex.value % CATEGORY_COLORS.length];
+      colorIndex.value++;
+      const categoryId = Date.now();
+      categoryList.value.push({
+        id: categoryId,
+        name,
+        color,
+      });
+      todoList.value.set(categoryId, []);
+    };
 
-  const toggleCheckedTodo = (id) => {
-    const item = todoList.value.get(currentCategory.value).find(todo => todo.id === id);
-    item.checked = !item.checked;
-  }
+    const toggleCheckedTodo = (id) => {
+      const item = todoList.value
+        .get(currentCategory.value)
+        .find((todo) => todo.id === id);
+      item.checked = !item.checked;
+    };
 
-  const selectCategory = (categoryId) => {
-    currentCategory.value = categoryId;
-  };
+    const selectCategory = (categoryId) => {
+      currentCategory.value = categoryId;
+    };
 
-  const getCategoryName = (categoryId) => {
-    return categoryList.value.find((category) => category.id === categoryId)
-      ?.name;
-  };
+    const getCategoryName = (categoryId) => {
+      return categoryList.value.find((category) => category.id === categoryId)
+        ?.name;
+    };
 
-  return {
-    todoList,
-    categoryList,
-    currentCategory,
+    return {
+      todoList,
+      categoryList,
+      currentCategory,
 
-    addTodo,
-    addCategory,
-    selectCategory,
-    getCategoryName,
-    toggleCheckedTodo
-  };
-});
+      addTodo,
+      addCategory,
+      selectCategory,
+      getCategoryName,
+      toggleCheckedTodo,
+    };
+  },
+  {
+    persist: {
+      serializer: {
+        serialize: (value) =>
+          JSON.stringify({
+            ...value,
+            todoList: [...value.todoList],
+          }),
+
+        deserialize: (value) => {
+          const parsed = JSON.parse(value);
+
+          return {
+            ...parsed,
+            todoList: new Map(parsed.todoList),
+          };
+        },
+      },
+    },
+  },
+);
