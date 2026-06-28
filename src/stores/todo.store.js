@@ -40,10 +40,10 @@ export const useTodoStore = defineStore("todo", () => {
   const colorIndex = ref(2);
   const currentCategory = ref("all");
 
-  const addTodo = () => {
+  const addTodo = (text) => {
     todoList.value
       .get(currentCategory.value)
-      ?.push({ id: Date.now(), text: "", done: false });
+      ?.push({ id: Date.now(), text, checked: false });
   };
 
   const addCategory = (name) => {
@@ -57,6 +57,11 @@ export const useTodoStore = defineStore("todo", () => {
     });
     todoList.value.set(categoryId, []);
   };
+
+  const toggleCheckedTodo = (id) => {
+    const item = todoList.value.get(currentCategory.value).find(todo => todo.id === id);
+    item.checked = !item.checked;
+  }
 
   const selectCategory = (categoryId) => {
     currentCategory.value = categoryId;
@@ -76,5 +81,6 @@ export const useTodoStore = defineStore("todo", () => {
     addCategory,
     selectCategory,
     getCategoryName,
+    toggleCheckedTodo
   };
 });

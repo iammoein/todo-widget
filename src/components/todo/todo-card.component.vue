@@ -1,13 +1,13 @@
 <template>
   <div class="todo-card">
     <div class="todo-card__content">
-        <TodoCheckbox @checked="toggleCheckCard" />
+        <TodoCheckbox @checked="toggleCheckCard(todo.id)" v-model="todo.checked" />
         <TodoInput
           ref="inputRef"
           @enter="handleAddCard"
           @delete="handleDeleteCard"
           v-model="model"
-          :checked="checkedCard"
+          :checked="todo.checked"
         />
     </div>
   </div>
@@ -17,6 +17,7 @@
 import { ref } from "vue";
 import TodoInput from "./todo-input.component.vue";
 import TodoCheckbox from "./todo-checkbox.component.vue";
+import { useTodoStore } from "@/stores/todo.store.js";
 
 const model = defineModel();
 
@@ -31,8 +32,9 @@ const props = defineProps({
   },
 });
 
-const checkedCard = ref(false);
 const inputRef = ref("");
+
+const todoStore = useTodoStore();
 
 defineExpose({
   focus() {
@@ -50,8 +52,9 @@ const handleDeleteCard = () => {
   emit("delete-input");
 };
 
-const toggleCheckCard = () => {
-  checkedCard.value = !checkedCard.value;
+const toggleCheckCard = (id) => {
+  todoStore.toggleCheckedTodo(id);
+  console.log(props.todo.checked, 'props checked');
 };
 </script>
 

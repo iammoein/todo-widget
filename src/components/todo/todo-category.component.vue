@@ -6,7 +6,7 @@
       </div>
       <h6 class="todo-category__title">{{ folderName }}</h6>
     </div>
-    <TodoCard v-for="todo in todos" v-model="todo.text" />
+    <TodoCard v-for="todo in todos" v-model="todo.text"  :todo="todo"/>
   </div>
 </template>
 

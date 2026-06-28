@@ -1,14 +1,12 @@
 <template>
-  <input class="todo-checkbox" type="checkbox" @change="handleChecked" />
+  <input class="todo-checkbox" type="checkbox" v-model="model" />
 </template>
 
 <script setup>
-
-const emit = defineEmits(['checked'])
-
-const handleChecked = () => {
-  emit('checked')
-}
+const model = defineModel({
+  type: Boolean,
+  default: false,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -22,7 +20,7 @@ const handleChecked = () => {
   height: rem(16);
 
   background-color: transparent;
-  border-radius: $radius-xs;
+  border-radius: $radius-sm;
   border: 2px solid $neutral-outline;
 
   cursor: pointer;

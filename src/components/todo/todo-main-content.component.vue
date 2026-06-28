@@ -11,6 +11,7 @@
           @add-input="handleAddCard(todo.id)"
           @delete-input="handleDeleteCard(todo.id)"
           v-model="todo.text"
+          :todo="todo"
         />
       </li>
 
