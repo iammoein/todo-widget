@@ -42,7 +42,7 @@ export const useTodoStore = defineStore(
     const colorIndex = ref(2);
     const currentCategory = ref("all");
 
-    const addTodo = (text = '') => {
+    const addTodo = (text = "") => {
       todoList.value
         .get(currentCategory.value)
         ?.push({ id: Date.now(), text, checked: false });
@@ -79,7 +79,7 @@ export const useTodoStore = defineStore(
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
-        .reduce((count, todo) => (todo.text === "" ? count + 1 : count),1);
+        .reduce((count, todo) => (todo.text === "" ? count + 1 : count), 1);
     });
 
     return {
@@ -98,11 +98,16 @@ export const useTodoStore = defineStore(
   {
     persist: {
       serializer: {
-        serialize: (value) =>
-          JSON.stringify({
+        serialize: (value) => {
+          const todoList = [...value.todoList].map(([category, todos]) => {
+            return [category, todos.filter((todo) => todo.text.trim() !== "")];
+          });
+
+          return JSON.stringify({
             ...value,
-            todoList: [...value.todoList],
-          }),
+            todoList,
+          });
+        },
 
         deserialize: (value) => {
           const parsed = JSON.parse(value);
