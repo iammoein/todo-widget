@@ -79,7 +79,7 @@ export const useTodoStore = defineStore(
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
-        .reduce((count, todo) => (todo.text === "" ? count + 1 : count), 1);
+        .reduce((count, todo) => (todo.text.trim() === "" ? count + 1 : count), 1);
     });
 
     return {
