@@ -106,6 +106,7 @@ const percentageCheckedTodo = computed(() => {
 
     background-color: $primary;
     border-radius: $radius-pill;
+    border: none;
 
     transition: transform 0.1s ease-out;
     cursor: pointer;
