@@ -7,7 +7,7 @@
         :key="todo.id"
       >
         <TodoCard
-          :ref="(el) => setCardRef(el, todo.id)"
+          :ref="(el) => register(todo.id, el)"
           @add-input="handleAddCard(todo.id)"
           @delete-input="handleDeleteCard(todo.id)"
           v-model="todo.text"
@@ -37,8 +37,7 @@ import { useTodoStore } from "@/stores/todo.store.js";
 import TodoCard from "./todo-card.component.vue";
 
 import TodoCategory from "./todo-category.component.vue";
-
-const cardRef = new Map();
+import { useFocus } from "@/composables/use-focus.composable.js";
 
 const todoStore = useTodoStore();
 
@@ -46,19 +45,15 @@ const categoris = computed(() =>
   [...todoStore.todoList].filter(([category]) => category !== "all"),
 );
 
-const setCardRef = (el, id) => {
-  if (el) cardRef.set(id, el);
-  else cardRef.delete(id);
-};
+const { register, focus } = useFocus();
 
 const handleAddCard = async () => {
+  if (todoStore.checkTodoEmptyItem > 1) return;
   todoStore.addTodo();
-  await nextTick();
 
   const list = todoStore.todoList.get(todoStore.currentCategory);
-  const newId = list.at(-1)?.id;
 
-  cardRef.get(newId)?.focus();
+  await focusLastItem(list);
 };
 
 const handleDeleteCard = async (id) => {
@@ -67,10 +62,9 @@ const handleDeleteCard = async (id) => {
   const focusId = list[index - 1]?.id || list[index + 1]?.id;
 
   list.splice(index, 1);
-  cardRef.delete(id);
   await nextTick();
 
-  cardRef.get(focusId)?.focus();
+  focus(focusId);
 };
 </script>
 
