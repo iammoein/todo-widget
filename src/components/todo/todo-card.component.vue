@@ -54,7 +54,6 @@ const handleDeleteCard = () => {
 
 const toggleCheckCard = (id) => {
   todoStore.toggleCheckedTodo(id);
-  console.log(props.todo.checked, 'props checked');
 };
 </script>
 
