@@ -52,11 +52,11 @@
 </template>
 
 <script setup>
-import { nextTick, ref, useTemplateRef } from "vue";
+import { nextTick, ref } from "vue";
 
 import BaseIcon from "@/components/common/base-icon.component.vue";
-import SettingsIcon from "@/components/icons/settings.icon.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
+import SettingsIcon from "@/components/icons/settings.icon.vue";
 
 import { useTodoStore } from "@/stores/todo.store";
 
