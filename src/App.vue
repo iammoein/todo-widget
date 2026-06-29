@@ -5,13 +5,12 @@
 </template>
 
 <script setup>
-import TodoContianer from './components/todo/todo-contianer.componet.vue';
-
+import TodoContianer from "./components/todo/todo-contianer.componet.vue";
 </script>
 
 <style scoped lang="scss">
 .app {
-@include flex;
+  @include flex;
 
   min-height: 100dvh;
   width: 100%;
