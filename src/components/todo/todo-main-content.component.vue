@@ -45,7 +45,7 @@ const categoris = computed(() =>
   [...todoStore.todoList].filter(([category]) => category !== "all"),
 );
 
-const { register, focus } = useFocus();
+const { register, focus, focusLastItem } = useFocus();
 
 const handleAddCard = async () => {
   if (todoStore.checkTodoEmptyItem > 1) return;
