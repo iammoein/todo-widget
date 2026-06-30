@@ -71,6 +71,12 @@ const handleDeleteCard = async (id) => {
 <style lang="scss" scoped>
 .todo-main {
   width: rem(300);
+  
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__list {
     @include flex(column, $align: stretch);
