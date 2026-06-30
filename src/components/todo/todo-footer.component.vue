@@ -21,24 +21,17 @@
 </template>
 
 <script setup>
-import { computed, nextTick } from "vue";
+import { computed } from "vue";
 import { useTodoStore } from "@/stores/todo.store";
 import { useFocus } from "@/composables/use-focus.composable";
+import { useAddTodo } from "@/composables/use-add-todo.composable";
 
 import BaseIcon from "@/components/common/base-icon.component.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
 
 const todoStore = useTodoStore();
-const { focusLastItem } = useFocus();
 
-const handleAddTodo = async () => {
-  if (todoStore.checkTodoEmptyItem > 1) return;
-  todoStore.addTodo();
-
-  const list = todoStore.todoList.get(todoStore.currentCategory);
-
-  await focusLastItem(list);
-};
+const { handleAddTodo } = useAddTodo();
 
 const totoalTodos = computed(() => {
   return todoStore.todoList.get(todoStore.currentCategory).length;

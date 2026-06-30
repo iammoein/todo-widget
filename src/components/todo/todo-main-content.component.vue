@@ -38,6 +38,7 @@ import TodoCard from "./todo-card.component.vue";
 
 import TodoCategory from "./todo-category.component.vue";
 import { useFocus } from "@/composables/use-focus.composable.js";
+import { useAddTodo } from "@/composables/use-add-todo.composable.js";
 
 const todoStore = useTodoStore();
 
@@ -45,16 +46,8 @@ const categoris = computed(() =>
   [...todoStore.todoList].filter(([category]) => category !== "all"),
 );
 
-const { register, focus, focusLastItem } = useFocus();
-
-const handleAddCard = async () => {
-  if (todoStore.checkTodoEmptyItem > 1) return;
-  todoStore.addTodo();
-
-  const list = todoStore.todoList.get(todoStore.currentCategory);
-
-  await focusLastItem(list);
-};
+const { register, focus } = useFocus();
+const { handleAddTodo: handleAddCard } = useAddTodo();
 
 const handleDeleteCard = async (id) => {
   const list = todoStore.todoList.get(todoStore.currentCategory);
@@ -71,7 +64,7 @@ const handleDeleteCard = async (id) => {
 <style lang="scss" scoped>
 .todo-main {
   width: rem(300);
-  
+
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
