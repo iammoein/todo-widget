@@ -22,6 +22,7 @@
           :key="category"
         >
           <TodoCategory
+            v-if="todos.length"
             :todos="todos"
             :folder-name="todoStore.getCategoryName(category)"
           />
