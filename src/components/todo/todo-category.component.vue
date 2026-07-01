@@ -1,12 +1,13 @@
 <template>
   <div class="todo-category">
     <div class="todo-category__header">
-      <div>
-        <BaseIcon :icon="folderIcon" size="16" />
+      <div class="todo-category__name">
+        <BaseIcon class="todo-category__icon" :icon="folderIcon" size="16" />
+        <h6 class="todo-category__title">{{ folderName }}</h6>
       </div>
-      <h6 class="todo-category__title">{{ folderName }}</h6>
+      <p class="todo-category__number">({{ todos.length }})</p>
     </div>
-    <TodoCard v-for="todo in todos" v-model="todo.text"  :todo="todo"/>
+    <TodoCard v-for="todo in todos" v-model="todo.text" :todo="todo" />
   </div>
 </template>
 
@@ -22,10 +23,9 @@ const props = defineProps({
   },
   folderName: {
     type: String,
-    default: ''
-  }
+    default: "",
+  },
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -37,7 +37,12 @@ const props = defineProps({
   border-radius: $radius-lg;
 
   &__header {
-    @include flex($justify: flex-start);
+    @include flex($justify: space-between);
+    gap: space(2);
+  }
+
+  &__name {
+    @include flex;
     gap: space(2);
   }
 
@@ -46,6 +51,14 @@ const props = defineProps({
 
     font-size: rem(14);
     font-weight: normal;
+  }
+
+  &__icon {
+    align-self: flex-start;
+  }
+
+  &__number {
+    align-self: flex-start;
   }
 }
 </style>

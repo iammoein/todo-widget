@@ -62,7 +62,7 @@ const autoResize = () => {
 .todo-input {
   flex-shrink: 1;
 
-  width: rem(260);
+  width: 100%;
   min-height: rem(18);
   padding-inline: space(7);
 
