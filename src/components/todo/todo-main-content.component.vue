@@ -6,13 +6,7 @@
         v-for="todo in todoStore.todoList.get(todoStore.currentCategory) || []"
         :key="todo.id"
       >
-        <TodoCard
-          :ref="(el) => register(todo.id, el)"
-          @add-input="handleAddCard(todo.id)"
-          @delete-input="handleDeleteCard(todo.id)"
-          v-model="todo.text"
-          :todo="todo"
-        />
+        <TodoSingle :todo="todo" />
       </li>
 
       <template v-if="todoStore.currentCategory === 'all'">
@@ -33,33 +27,17 @@
 </template>
 
 <script setup>
-import { computed, nextTick } from "vue";
+import { computed } from "vue";
 import { useTodoStore } from "@/stores/todo.store.js";
-import TodoCard from "./todo-card.component.vue";
 
 import TodoCategory from "./todo-category.component.vue";
-import { useFocus } from "@/composables/use-focus.composable.js";
-import { useAddTodo } from "@/composables/use-add-todo.composable.js";
+import TodoSingle from "./todo-single.component.vue";
 
 const todoStore = useTodoStore();
 
 const categoris = computed(() =>
   [...todoStore.todoList].filter(([category]) => category !== "all"),
 );
-
-const { register, focus } = useFocus();
-const { handleAddTodo: handleAddCard } = useAddTodo();
-
-const handleDeleteCard = async (id) => {
-  const list = todoStore.todoList.get(todoStore.currentCategory);
-  const index = list.findIndex((todo) => todo.id === id);
-  const focusId = list[index - 1]?.id || list[index + 1]?.id;
-
-  list.splice(index, 1);
-  await nextTick();
-
-  focus(focusId);
-};
 </script>
 
 <style lang="scss" scoped>
