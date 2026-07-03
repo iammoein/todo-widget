@@ -5,13 +5,17 @@
         :ref="(el) => register(todo.id, el)"
         @add-input="handleAddCard(todo.id)"
         @delete-input="handleDeleteByBackspace(todo.id)"
+        @pointer-down="handlePointerDown"
+        @pointer-move="handlePointerMove"
+        @pointer-up="handlePointerUp"
+        :swipe-obj="swipeObj"
         v-model="todo.text"
         :todo="todo"
         class="todo-single__card"
       />
     </div>
     <button class="todo-single__delete" @click="handleDelete(todo.id)">
-      <BaseIcon :icon="trashIcon" />
+      <BaseIcon :icon="trashIcon" :style="{ transform: `scale(${ratio})` }" />
     </button>
   </div>
 </template>
@@ -25,6 +29,7 @@ import TodoCard from "./todo-card.component.vue";
 import { useFocus } from "@/composables/use-focus.composable.js";
 import { useAddTodo } from "@/composables/use-add-todo.composable.js";
 import { useTodoStore } from "@/stores/todo.store.js";
+import { useSwipe } from "@/composables/use-swipe.composable.js";
 
 const props = defineProps({
   todo: {
@@ -35,6 +40,13 @@ const props = defineProps({
 
 const { register, focus } = useFocus();
 const { handleAddTodo: handleAddCard } = useAddTodo();
+const {
+  handlePointerDown,
+  handlePointerMove,
+  handlePointerUp,
+  swipeObj,
+  ratio,
+} = useSwipe();
 
 const todoStore = useTodoStore();
 

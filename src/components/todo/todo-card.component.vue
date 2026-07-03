@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, ref } from "vue";
 import TodoInput from "./todo-input.component.vue";
 import TodoCheckbox from "./todo-checkbox.component.vue";
 import { useTodoStore } from "@/stores/todo.store.js";
@@ -39,6 +39,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  swipeObj: {
+    type: Object,
+    default: { x: 0, isSwiping: false },
+  },
 });
 
 const inputRef = ref("");
@@ -51,7 +55,14 @@ defineExpose({
   },
 });
 
-const emit = defineEmits(["add-input", "delete-input", "checked-card"]);
+const emit = defineEmits([
+  "add-input",
+  "delete-input",
+  "checked-card",
+  "pointer-down",
+  "pointer-move",
+  "pointer-up",
+]);
 
 const handleAddCard = () => {
   emit("add-input");
@@ -61,36 +72,23 @@ const handleDeleteCard = () => {
   emit("delete-input");
 };
 
-const swipeObj = reactive({
-  startX: 0,
-  x: 0,
-  isSwiping: false,
-});
+const handlePointerDown = (el) => {
+  emit("pointer-down", el);
+};
 
-const THERSHOLD = 60;
+const handlePointerMove = (el) => {
+  emit("pointer-move", el);
+};
+
+const handlePointerUp = () => {
+  emit("pointer-up");
+};
 
 const toggleCheckCard = (id) => {
   todoStore.toggleCheckedTodo(id);
 };
 
-const handlePointerDown = (el) => {
-  swipeObj.isSwiping = true;
-  swipeObj.startX = el.clientX - swipeObj.x;
-  el.target.setPointerCapture(el.pointerId);
-};
-
-const handlePointerMove = (el) => {
-  if (!swipeObj.isSwiping) return;
-
-  const delta = el.clientX - swipeObj.startX;
-  swipeObj.x = Math.min(Math.max(delta, 0), THERSHOLD);
-};
-
-const handlePointerUp = () => {
-  swipeObj.isSwiping = false;
-};
-
-const translateXValue = computed(() => `translateX(${swipeObj.x}px)`);
+const translateXValue = computed(() => `translateX(${props.swipeObj.x}px)`);
 </script>
 
 <style lang="scss" scoped>
@@ -104,6 +102,7 @@ const translateXValue = computed(() => `translateX(${swipeObj.x}px)`);
   background-color: $neutral-surface;
   border-radius: $radius-lg;
 
+  user-select: none;
   cursor: grab;
 
   &__content {
