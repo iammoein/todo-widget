@@ -1,6 +1,6 @@
 <template>
   <div class="todo-main">
-    <ul class="todo-main__list">
+    <transition-group name="todo-list" tag="ul" class="todo-main__list">
       <li
         class="tood-main__single-todo"
         v-for="todo in todoStore.todoList.get(todoStore.currentCategory) || []"
@@ -22,7 +22,7 @@
           />
         </li>
       </template>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -57,4 +57,16 @@ const categoris = computed(() =>
     list-style: none;
   }
 }
+
+.todo-list-enter-active,
+.todo-list-leave-active {
+  transition: all 300ms ease-out;
+}
+
+.todo-list-enter-from,
+.todo-list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
 </style>
