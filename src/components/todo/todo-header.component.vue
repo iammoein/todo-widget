@@ -162,8 +162,6 @@ const handleCategory = (id) => {
     gap: space(2);
 
     height: rem(24);
-
-    list-style: none;
   }
 
   &__category-new {

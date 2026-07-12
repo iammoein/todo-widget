@@ -53,8 +53,6 @@ const categoris = computed(() =>
   &__list {
     @include flex(column, $align: stretch);
     gap: space(2);
-
-    list-style: none;
   }
 }
 
