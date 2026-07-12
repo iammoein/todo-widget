@@ -41,6 +41,7 @@ export const useTodoStore = defineStore(
     );
     const colorIndex = ref(2);
     const currentCategory = ref("all");
+    const todoSettings = ref(true);
 
     const addTodo = (text = "") => {
       todoList.value
@@ -97,6 +98,7 @@ export const useTodoStore = defineStore(
       todoList,
       categoryList,
       currentCategory,
+      todoSettings,
       checkTodoEmptyItem,
 
       addTodo,

@@ -1,15 +1,24 @@
 <template>
   <div class="todo-container">
-    <TodoHeader class="todo-container__header" />
-    <TodoMain class="todo-container__main" />
-    <TodoFooter class="todo-container__footer" />
+    <template v-if="!todoStore.todoSettings">
+      <TodoHeader class="todo-container__header" />
+      <TodoMain class="todo-container__main" />
+      <TodoFooter class="todo-container__footer" />
+    </template>
+    <template v-else>
+      <TodoSettings />
+    </template>
   </div>
 </template>
 
 <script setup>
+import { useTodoStore } from "@/stores/todo.store.js";
 import TodoFooter from "./todo-footer.component.vue";
 import TodoHeader from "./todo-header.component.vue";
 import TodoMain from "./todo-main-content.component.vue";
+import TodoSettings from "./todo-settings.component.vue";
+
+const todoStore = useTodoStore();
 </script>
 
 <style lang="scss" scoped>
