@@ -34,7 +34,6 @@
             @blur="handleConfirmCategory"
             @keyup.enter="handleConfirmCategory"
             @keyup.esc="handleCancelCategory"
-            @keyup.backspace="handleCancelCategory"
             ref="inputRef"
           />
         </li>
