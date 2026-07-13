@@ -13,6 +13,7 @@
         <li
           v-for="category in filteredCategory"
           class="todo-settings__categories-item"
+          :key="category.id"
         >
           <button class="todo-settings__delete-button">
             <BaseIcon
@@ -69,7 +70,7 @@
                 background: category.color.bg,
                 '--category-border': category.color.text,
               }"
-              @click="handleSelectCategory(category.id)"
+              @click="handleSelectCategory(category)"
               class="todo-settings__categories-item"
               :class="{
                 'todo-settings__categories-item--active': isActiveCategory(
@@ -83,10 +84,18 @@
         </ul>
         <ul class="todo-settings__color-list">
           <li v-for="color in CATEGORY_COLORS" :key="color.bg">
-            <span
+            <button
               class="todo-settings__color"
               :style="{ background: color.bg }"
-            ></span>
+              @click="handleChangeColor(color)"
+            >
+              <BaseIcon
+                v-if="activeColor === color.bg"
+                size="8"
+                :icon="CheckIcon"
+                class="todo-settings__check-icon"
+              />
+            </button>
           </li>
         </ul>
       </div>
@@ -97,21 +106,23 @@
 <script setup>
 import { useTodoStore } from "@/stores/todo.store";
 import { computed, nextTick, ref } from "vue";
+import { CATEGORY_COLORS } from "@/constants/category-colors.constant.js";
 
 import DeleteIcon from "../icons/delete.icon.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
 import BaseIcon from "../common/base-icon.component.vue";
-import { CATEGORY_COLORS } from "@/constants/category-colors.constant.js";
+import CheckIcon from "../icons/check.icon.vue";
 
 const categoryName = defineModel({
   type: String,
   default: "",
 });
 
-const currentCategory = ref(null);
+const editingCategory = ref(null);
 
 const isAdding = ref(false);
 const inputRef = ref(null);
+const activeColor = ref(null);
 
 const todoStore = useTodoStore();
 
@@ -119,11 +130,20 @@ const filteredCategory = computed(() =>
   todoStore.categoryList.filter((category) => category.id !== "all"),
 );
 
-const handleSelectCategory = (id) => {
-  currentCategory.value = id;
+const handleSelectCategory = (category) => {
+  editingCategory.value = category;
+  activeColor.value = category.color.bg;
 };
 
-const isActiveCategory = (categoryId) => categoryId === currentCategory.value;
+const handleChangeColor = (color) => {
+  if (editingCategory.value) {
+    todoStore.updateCategoryColor(editingCategory.value.id, color);
+    activeColor.value = color.bg;
+  }
+};
+
+const isActiveCategory = (categoryId) =>
+  categoryId === editingCategory.value?.id;
 
 const handleAddCategory = async () => {
   isAdding.value = true;
@@ -251,7 +271,7 @@ const handleCancelCategory = () => {
   }
 
   &__color {
-    display: inline-block;
+    @include flex;
 
     width: rem(24);
     height: rem(24);

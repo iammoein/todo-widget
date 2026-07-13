@@ -85,6 +85,14 @@ export const useTodoStore = defineStore(
         ?.name;
     };
 
+    const updateCategoryColor = (categoryId, color) => {
+      const category = categoryList.value.find((c) => c.id === categoryId);
+
+      if (category) {
+        category.color = color;
+      }
+    };
+
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
@@ -107,6 +115,7 @@ export const useTodoStore = defineStore(
       selectCategory,
       getCategoryName,
       toggleCheckedTodo,
+      updateCategoryColor,
     };
   },
   {
