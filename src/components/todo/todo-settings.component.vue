@@ -15,7 +15,10 @@
           class="todo-settings__categories-item"
           :key="category.id"
         >
-          <button class="todo-settings__delete-button">
+          <button
+            @click="handleDeleteCategory(category.id)"
+            class="todo-settings__delete-button"
+          >
             <BaseIcon
               class="todo-settings__delete-icon"
               size="5"
@@ -162,6 +165,10 @@ const handleConfirmCategory = () => {
 const handleCancelCategory = () => {
   isAdding.value = false;
   categoryName.value = "";
+};
+
+const handleDeleteCategory = (id) => {
+  todoStore.deleteCategory(id);
 };
 </script>
 

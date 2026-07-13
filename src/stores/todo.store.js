@@ -41,7 +41,7 @@ export const useTodoStore = defineStore(
     );
     const colorIndex = ref(2);
     const currentCategory = ref("all");
-    const todoSettings = ref(true);
+    const todoSettings = ref(false);
 
     const addTodo = (text = "") => {
       todoList.value
@@ -93,6 +93,14 @@ export const useTodoStore = defineStore(
       }
     };
 
+    const deleteCategory = (categoryId) => {
+      categoryList.value = categoryList.value.filter(
+        (category) => category.id !== categoryId,
+      );
+      todoList.value.delete(categoryId);
+      currentCategory.value = "all";
+    };
+
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
@@ -112,6 +120,7 @@ export const useTodoStore = defineStore(
       addTodo,
       addCategory,
       deleteTodo,
+      deleteCategory,
       selectCategory,
       getCategoryName,
       toggleCheckedTodo,
