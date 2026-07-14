@@ -1,12 +1,13 @@
 <template>
   <main class="todo-settings">
-    <h5>تنظیمات ویجت</h5>
+    <BaseTitle title-tag="h5" title="تنظیمات ویجت" />
     <div class="todo-settings__section">
       <div class="todo-settings__section-header">
-        <h6 class="todo-settings__header-title">دسته بندی ها</h6>
-        <p class="todo-settings__header-content">
-          میتونی دسته‌بندی دلخواهت رو ایجاد یا حذف کنی
-        </p>
+        <BaseTitle title-tag="h6" title="دسته بندی">
+          <p class="todo-settings__header-content">
+            میتونی دسته‌بندی دلخواهت رو ایجاد یا حذف کنی
+          </p>
+        </BaseTitle>
       </div>
 
       <ul class="todo-settings__categories-list todo-settings__section-content">
@@ -56,10 +57,11 @@
 
     <div class="todo-settings__section">
       <div class="todo-settings__section-header">
-        <h6 class="todo-settings__header-title">رنگ دسته بندی</h6>
-        <p class="todo-settings__header-content">
-          با انتخاب هر دسته بندی میتونی رنگش رو عوض کنی
-        </p>
+        <BaseTitle title-tag="h6" title="رنگ دسته بندی">
+          <p class="todo-settings__header-content">
+            با انتخاب هر دسته بندی میتونی رنگش رو عوض کنی
+          </p>
+        </BaseTitle>
       </div>
 
       <div class="todo-settings__pick-color">
@@ -115,6 +117,7 @@ import DeleteIcon from "../icons/delete.icon.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
 import BaseIcon from "../common/base-icon.component.vue";
 import CheckIcon from "../icons/check.icon.vue";
+import BaseTitle from "../common/base-title.component.vue";
 
 const categoryName = defineModel({
   type: String,
