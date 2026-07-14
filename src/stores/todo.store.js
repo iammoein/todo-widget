@@ -42,6 +42,9 @@ export const useTodoStore = defineStore(
     const colorIndex = ref(2);
     const currentCategory = ref("all");
     const todoSettings = ref(false);
+    const settings = ref({
+      direction: "rtl",
+    });
 
     const addTodo = (text = "") => {
       todoList.value
@@ -101,6 +104,10 @@ export const useTodoStore = defineStore(
       currentCategory.value = "all";
     };
 
+    const selectDirection = (dir) => {
+      settings.value.direction = dir;
+    };
+
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
@@ -116,12 +123,14 @@ export const useTodoStore = defineStore(
       currentCategory,
       todoSettings,
       checkTodoEmptyItem,
+      settings,
 
       addTodo,
       addCategory,
       deleteTodo,
       deleteCategory,
       selectCategory,
+      selectDirection,
       getCategoryName,
       toggleCheckedTodo,
       updateCategoryColor,

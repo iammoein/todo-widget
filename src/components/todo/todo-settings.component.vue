@@ -105,6 +105,29 @@
         </ul>
       </div>
     </div>
+
+    <div class="todo-settings__section">
+      <div class="todo-settings__section-header">
+        <BaseTitle title-tag="h6" title="جهت ویجت">
+          <p class="todo-settings__header-content">جهت دلخواهت رو انتخاب کن</p>
+        </BaseTitle>
+
+        <div class="todo-settings__direction">
+          <button
+            v-for="dir in directions"
+            :key="dir.value"
+            class="todo-settings__direction-button"
+            @click="todoStore.selectDirection(dir.value)"
+            :class="{
+              'todo-settings__direction-button--active':
+                todoStore.settings.direction === dir.value,
+            }"
+          >
+            <BaseIcon :icon="dir.iconName" />
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -117,6 +140,9 @@ import DeleteIcon from "../icons/delete.icon.vue";
 import PlusIcon from "@/components/icons/plus.icon.vue";
 import BaseIcon from "../common/base-icon.component.vue";
 import CheckIcon from "../icons/check.icon.vue";
+import TextingLeftIcon from "../icons/texting-left.icon.vue";
+import TextingRightIcon from "../icons/texting-right.icon.vue";
+
 import BaseTitle from "../common/base-title.component.vue";
 
 const categoryName = defineModel({
@@ -131,6 +157,11 @@ const inputRef = ref(null);
 const activeColor = ref(null);
 
 const todoStore = useTodoStore();
+
+const directions = [
+  { value: "rtl", iconName: TextingRightIcon },
+  { value: "ltr", iconName: TextingLeftIcon },
+];
 
 const filteredCategory = computed(() =>
   todoStore.categoryList.filter((category) => category.id !== "all"),
@@ -290,6 +321,31 @@ const handleDeleteCategory = (id) => {
     border: 1px solid $neutral-outline;
 
     cursor: pointer;
+  }
+
+  &__direction {
+    @include flex($align: flex-start, $justify: flex-start);
+    gap: space(3);
+
+    margin-top: space(3);
+  }
+
+  &__direction-button {
+    @include button-reset;
+
+    padding: space(1.5);
+
+    border-radius: $radius-md;
+    background-color: $neutral-surface;
+    border: 1px solid transparent;
+
+    color: $neutral-on-surface;
+
+    &--active {
+      background-color: $primary-container;
+      border-color: $primary;
+      color: $primary;
+    }
   }
 }
 </style>
