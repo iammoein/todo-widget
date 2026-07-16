@@ -1,159 +1,186 @@
 <template>
-  <main class="todo-settings">
-    <BaseTitle title-tag="h5" title="تنظیمات ویجت" />
-    <div class="todo-settings__section">
-      <div class="todo-settings__section-header">
-        <BaseTitle title-tag="h6" title="دسته بندی">
-          <p class="todo-settings__header-content">
-            میتونی دسته‌بندی دلخواهت رو ایجاد یا حذف کنی
-          </p>
-        </BaseTitle>
-      </div>
-
-      <ul class="todo-settings__categories-list todo-settings__section-content">
-        <li
-          v-for="category in filteredCategory"
-          class="todo-settings__categories-item"
-          :key="category.id"
-        >
-          <button
-            @click="handleDeleteCategory(category.id)"
-            class="todo-settings__delete-button"
+  <div class="todo-settings">
+    <!-- <BaseIcon :icon="LineIocn" /> -->
+    <BaseTitle
+      class="todo-settings__header"
+      title-tag="h5"
+      title="تنظیمات ویجت"
+    />
+    <div class="todo-settings__content">
+      <div class="todo-settings__section">
+        <div class="todo-settings__section-header">
+          <BaseTitle
+            class="todo-settings__header-title"
+            title-tag="h6"
+            title="دسته بندی"
           >
-            <BaseIcon
-              class="todo-settings__delete-icon"
-              size="5"
-              :icon="DeleteIcon"
-            />
-          </button>
-          <button class="todo-settings__category-name">
-            {{ category.name }}
-          </button>
-        </li>
+            <p class="todo-settings__header-content">
+              میتونی دسته‌بندی دلخواهت رو ایجاد یا حذف کنی
+            </p>
+          </BaseTitle>
+        </div>
 
-        <li v-if="isAdding">
-          <input
-            v-model="categoryName"
-            type="text"
-            class="todo-settings__categories-item todo-settings__category-new"
-            @blur="handleConfirmCategory"
-            @keyup.enter="handleConfirmCategory"
-            @keyup.esc="handleCancelCategory"
-            ref="inputRef"
-          />
-        </li>
-        <li v-else>
-          <button
-            @click="handleAddCategory"
-            class="todo-settings__categories-item todo-settings__plus"
-          >
-            <span class="todo-settings__plus-text">
-              <BaseIcon :icon="PlusIcon" size="8" />
-            </span>
-          </button>
-        </li>
-      </ul>
-    </div>
-
-    <div class="todo-settings__section">
-      <div class="todo-settings__section-header">
-        <BaseTitle title-tag="h6" title="رنگ دسته بندی">
-          <p class="todo-settings__header-content">
-            با انتخاب هر دسته بندی میتونی رنگش رو عوض کنی
-          </p>
-        </BaseTitle>
-      </div>
-
-      <div class="todo-settings__pick-color">
         <ul
           class="todo-settings__categories-list todo-settings__section-content"
         >
-          <li v-for="category in todoStore.categoryList" :key="category.id">
+          <li
+            v-for="category in filteredCategory"
+            class="todo-settings__categories-item"
+            :key="category.id"
+          >
             <button
-              :style="{
-                color: category.color.text,
-                background: category.color.bg,
-                '--category-border': category.color.text,
-              }"
-              @click="handleSelectCategory(category)"
-              class="todo-settings__categories-item"
-              :class="{
-                'todo-settings__categories-item--active': isActiveCategory(
-                  category.id,
-                ),
-              }"
+              @click="handleDeleteCategory(category.id)"
+              class="todo-settings__delete-button"
             >
+              <BaseIcon
+                class="todo-settings__delete-icon"
+                size="5"
+                :icon="DeleteIcon"
+              />
+            </button>
+            <button class="todo-settings__category-name">
               {{ category.name }}
             </button>
           </li>
-        </ul>
-        <ul class="todo-settings__color-list">
-          <li v-for="color in CATEGORY_COLORS" :key="color.bg">
+
+          <li v-if="isAdding">
+            <input
+              v-model="categoryName"
+              type="text"
+              class="todo-settings__categories-item todo-settings__category-new"
+              @blur="handleConfirmCategory"
+              @keyup.enter="handleConfirmCategory"
+              @keyup.esc="handleCancelCategory"
+              ref="inputRef"
+            />
+          </li>
+          <li v-else>
             <button
-              class="todo-settings__color"
-              :style="{ background: color.bg }"
-              @click="handleChangeColor(color)"
+              @click="handleAddCategory"
+              class="todo-settings__categories-item todo-settings__plus"
             >
-              <BaseIcon
-                v-if="activeColor === color.bg"
-                size="8"
-                :icon="CheckIcon"
-                class="todo-settings__check-icon"
-              />
+              <span class="todo-settings__plus-text">
+                <BaseIcon :icon="PlusIcon" size="8" />
+              </span>
             </button>
           </li>
         </ul>
       </div>
-    </div>
 
-    <div class="todo-settings__section">
-      <div class="todo-settings__section-header">
-        <BaseTitle title-tag="h6" title="جهت ویجت">
-          <p class="todo-settings__header-content">جهت دلخواهت رو انتخاب کن</p>
-        </BaseTitle>
-
-        <div class="todo-settings__options">
-          <button
-            v-for="dir in directions"
-            :key="dir.value"
-            class="todo-settings__option-button"
-            @click="todoStore.selectDirection(dir.value)"
-            :class="{
-              'todo-settings__option-button--active':
-                todoStore.settings.direction === dir.value,
-            }"
+      <div class="todo-settings__section">
+        <div class="todo-settings__section-header">
+          <BaseTitle
+            class="todo-settings__header-title"
+            title-tag="h6"
+            title="رنگ دسته بندی"
           >
-            <BaseIcon :icon="dir.iconName" />
-          </button>
+            <p class="todo-settings__header-content">
+              با انتخاب هر دسته بندی میتونی رنگش رو عوض کنی
+            </p>
+          </BaseTitle>
+        </div>
+
+        <div class="todo-settings__pick-color">
+          <ul
+            class="todo-settings__categories-list todo-settings__section-content"
+          >
+            <li v-for="category in todoStore.categoryList" :key="category.id">
+              <button
+                :style="{
+                  color: category.color.text,
+                  background: category.color.bg,
+                  '--category-border': category.color.text,
+                }"
+                @click="handleSelectCategory(category)"
+                class="todo-settings__categories-item"
+                :class="{
+                  'todo-settings__categories-item--active': isActiveCategory(
+                    category.id,
+                  ),
+                }"
+              >
+                {{ category.name }}
+              </button>
+            </li>
+          </ul>
+          <ul class="todo-settings__color-list">
+            <li v-for="color in CATEGORY_COLORS" :key="color.bg">
+              <button
+                class="todo-settings__color"
+                :style="{ background: color.bg }"
+                @click="handleChangeColor(color)"
+              >
+                <BaseIcon
+                  v-if="activeColor === color.bg"
+                  size="8"
+                  :icon="CheckIcon"
+                  class="todo-settings__check-icon"
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="todo-settings__section">
+        <div class="todo-settings__section-header">
+          <BaseTitle
+            class="todo-settings__header-title"
+            title-tag="h6"
+            title="جهت ویجت"
+          >
+            <p class="todo-settings__header-content">
+              جهت دلخواهت رو انتخاب کن
+            </p>
+          </BaseTitle>
+
+          <div class="todo-settings__options">
+            <button
+              v-for="dir in directions"
+              :key="dir.value"
+              class="todo-settings__option-button"
+              @click="todoStore.selectDirection(dir.value)"
+              :class="{
+                'todo-settings__option-button--active':
+                  todoStore.settings.direction === dir.value,
+              }"
+            >
+              <BaseIcon :icon="dir.iconName" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="todo-settings__section">
+        <div class="todo-settings__section-header">
+          <BaseTitle
+            class="todo-settings__header-title"
+            title-tag="h6"
+            title="اندازه متن تسک"
+          >
+            <p class="todo-settings__header-content">
+              اندازه متن دلخواهت رو انتخاب کن
+            </p>
+          </BaseTitle>
+
+          <div class="todo-settings__options">
+            <button
+              v-for="size in fontSizes"
+              :key="size.value"
+              class="todo-settings__option-button"
+              @click="todoStore.selectFontSize(size.value)"
+              :class="{
+                'todo-settings__option-button--active':
+                  todoStore.settings.fontSize === size.value,
+              }"
+            >
+              <BaseIcon :icon="size.iconName" size="14" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="todo-settings__section">
-      <div class="todo-settings__section-header">
-        <BaseTitle title-tag="h6" title="اندازه متن تسک">
-          <p class="todo-settings__header-content">
-            اندازه متن دلخواهت رو انتخاب کن
-          </p>
-        </BaseTitle>
-
-        <div class="todo-settings__options">
-          <button
-            v-for="size in fontSizes"
-            :key="size.value"
-            class="todo-settings__option-button"
-            @click="todoStore.selectFontSize(size.value)"
-            :class="{
-              'todo-settings__option-button--active':
-                todoStore.settings.fontSize === size.value,
-            }"
-          >
-            <BaseIcon :icon="size.iconName" size="14" />
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
+  </div>
 </template>
 
 <script setup>
@@ -171,6 +198,7 @@ import MIcon from "../icons/m.icon.vue";
 import SIcon from "../icons/s.icon.vue";
 
 import BaseTitle from "../common/base-title.component.vue";
+import LineIocn from "../icons/line.iocn.vue";
 
 const categoryName = defineModel({
   type: String,
@@ -241,15 +269,33 @@ const handleDeleteCategory = (id) => {
 <style lang="scss" scoped>
 .todo-settings {
   @include flex($direction: column, $align: flex-start);
-  gap: space(6);
+  gap: space(4);
 
-  width: rem(332);
+  width: 100%;
+  // max-height: 100%;
+
+  // overflow: hidden;
+
+  &__header {
+    --base-title-font-size: 16px;
+    --base-title-font-weight: 600;
+  }
+
+  &__content {
+    @include flex($direction: column, $align: flex-start);
+    gap: space(6);
+  }
 
   &__section {
     @include flex($direction: column, $align: flex-start);
     gap: space(4);
 
     width: rem(248);
+  }
+
+  &__header-title {
+    --base-title-font-size: 14px;
+    --base-title-font-weight: 400;
   }
 
   &__header-content {

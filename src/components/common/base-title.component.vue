@@ -1,6 +1,8 @@
 <template>
   <div class="base-title">
-    <component :is="titleTag"> {{ title }}</component>
+    <component :is="titleTag" class="base-title__heading">
+      {{ title }}</component
+    >
     <slot></slot>
   </div>
 </template>
@@ -17,3 +19,12 @@ defineProps({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.base-title {
+  &__heading {
+    font-size: var(--base-title-font-size, inherit);
+    font-weight: var(--base-title-font-weight, inherit);
+  }
+}
+</style>

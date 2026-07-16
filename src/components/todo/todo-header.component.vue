@@ -45,7 +45,7 @@ const handleCategory = (id) => {
 };
 
 const handleClickSetting = () => {
-  todoStore.todoSettings = true;
+  todoStore.isSetting = true;
 };
 </script>
 

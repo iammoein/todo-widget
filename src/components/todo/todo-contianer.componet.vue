@@ -1,14 +1,21 @@
 <template>
-  <div class="todo-container">
-    <template v-if="!todoStore.todoSettings">
+  <main class="todo-container">
+    <div
+      class="todo-container__content"
+      :class="{ 'todo-container__content--overlay': todoStore.isSetting }"
+    >
       <TodoHeader class="todo-container__header" />
       <TodoMain class="todo-container__main" />
       <TodoFooter class="todo-container__footer" />
-    </template>
-    <template v-else>
+    </div>
+    <div
+      class="todo-container__setting"
+      :class="{ 'todo-container__setting--active': todoStore.isSetting }"
+      v-show="todoStore.isSetting"
+    >
       <TodoSettings />
-    </template>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script setup>
@@ -23,13 +30,56 @@ const todoStore = useTodoStore();
 
 <style lang="scss" scoped>
 .todo-container {
-  display: flex;
-  flex-direction: column;
-  gap: rem(20);
+  position: relative;
 
   width: rem(332);
   height: rem(560);
-  padding: space(5) space(4);
+
+  background-color: $white;
+  border-radius: $radius-3xl;
+
+  overflow: hidden;
+
+  &__setting,
+  &__content {
+    padding: space(5) space(4);
+  }
+
+  &__content {
+    @include flex(column);
+    gap: rem(20);
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    // &:has(todo-container__content--overlay) {
+    //   background-color: red;
+    // }
+
+    &--overlay {
+      background-color: $state-layer;
+    }
+  }
+
+  &__setting {
+    position: absolute;
+    inset: 0;
+
+    height: 95%;
+
+    background-color: $hue-10;
+    border-radius: $radius-3xl;
+
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+
+    z-index: 2;
+
+    &--active {
+      transform: translateY(5%);
+    }
+  }
 
   &__header,
   &__footer {
@@ -40,8 +90,5 @@ const todoStore = useTodoStore();
     flex: 1;
     overflow-y: auto;
   }
-
-  background-color: $white;
-  border-radius: $radius-3xl;
 }
 </style>

@@ -41,7 +41,7 @@ export const useTodoStore = defineStore(
     );
     const colorIndex = ref(2);
     const currentCategory = ref("all");
-    const todoSettings = ref(false);
+    const isSetting = ref(false);
     const settings = ref({
       direction: "rtl",
       fontSize: 'medium'
@@ -126,7 +126,7 @@ export const useTodoStore = defineStore(
       todoList,
       categoryList,
       currentCategory,
-      todoSettings,
+      isSetting,
       checkTodoEmptyItem,
       settings,
 
