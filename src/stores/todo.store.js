@@ -44,6 +44,7 @@ export const useTodoStore = defineStore(
     const todoSettings = ref(false);
     const settings = ref({
       direction: "rtl",
+      fontSize: 'medium'
     });
 
     const addTodo = (text = "") => {
@@ -108,6 +109,10 @@ export const useTodoStore = defineStore(
       settings.value.direction = dir;
     };
 
+    const selectFontSize = (size) => {
+      settings.value.fontSize = size;
+    }
+
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
         .get(currentCategory.value)
@@ -131,6 +136,7 @@ export const useTodoStore = defineStore(
       deleteCategory,
       selectCategory,
       selectDirection,
+      selectFontSize,
       getCategoryName,
       toggleCheckedTodo,
       updateCategoryColor,

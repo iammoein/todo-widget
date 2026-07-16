@@ -112,18 +112,43 @@
           <p class="todo-settings__header-content">جهت دلخواهت رو انتخاب کن</p>
         </BaseTitle>
 
-        <div class="todo-settings__direction">
+        <div class="todo-settings__options">
           <button
             v-for="dir in directions"
             :key="dir.value"
-            class="todo-settings__direction-button"
+            class="todo-settings__option-button"
             @click="todoStore.selectDirection(dir.value)"
             :class="{
-              'todo-settings__direction-button--active':
+              'todo-settings__option-button--active':
                 todoStore.settings.direction === dir.value,
             }"
           >
             <BaseIcon :icon="dir.iconName" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="todo-settings__section">
+      <div class="todo-settings__section-header">
+        <BaseTitle title-tag="h6" title="اندازه متن تسک">
+          <p class="todo-settings__header-content">
+            اندازه متن دلخواهت رو انتخاب کن
+          </p>
+        </BaseTitle>
+
+        <div class="todo-settings__options">
+          <button
+            v-for="size in fontSizes"
+            :key="size.value"
+            class="todo-settings__option-button"
+            @click="todoStore.selectFontSize(size.value)"
+            :class="{
+              'todo-settings__option-button--active':
+                todoStore.settings.fontSize === size.value,
+            }"
+          >
+            <BaseIcon :icon="size.iconName" size="14" />
           </button>
         </div>
       </div>
@@ -142,6 +167,8 @@ import BaseIcon from "../common/base-icon.component.vue";
 import CheckIcon from "../icons/check.icon.vue";
 import TextingLeftIcon from "../icons/texting-left.icon.vue";
 import TextingRightIcon from "../icons/texting-right.icon.vue";
+import MIcon from "../icons/m.icon.vue";
+import SIcon from "../icons/s.icon.vue";
 
 import BaseTitle from "../common/base-title.component.vue";
 
@@ -161,6 +188,11 @@ const todoStore = useTodoStore();
 const directions = [
   { value: "rtl", iconName: TextingRightIcon },
   { value: "ltr", iconName: TextingLeftIcon },
+];
+
+const fontSizes = [
+  { value: "small", iconName: SIcon },
+  { value: "medium", iconName: MIcon },
 ];
 
 const filteredCategory = computed(() =>
@@ -323,16 +355,18 @@ const handleDeleteCategory = (id) => {
     cursor: pointer;
   }
 
-  &__direction {
+  &__options {
     @include flex($align: flex-start, $justify: flex-start);
     gap: space(3);
 
     margin-top: space(3);
   }
 
-  &__direction-button {
+  &__option-button {
     @include button-reset;
 
+    width: rem(36);
+    height: rem(36);
     padding: space(1.5);
 
     border-radius: $radius-md;

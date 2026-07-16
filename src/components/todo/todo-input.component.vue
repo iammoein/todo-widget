@@ -15,7 +15,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { useTodoStore } from "@/stores/todo.store";
+import { computed, ref } from "vue";
 
 const { checked } = defineProps({
   checked: {
@@ -35,11 +36,16 @@ const model = defineModel({
   default: "",
 });
 
+const todoStore = useTodoStore();
 const textareaRef = ref(null);
 
 const onEnter = () => {
   emit("enter");
 };
+
+const fontSizeMap = { small: "12px", medium: "14px", large: "18px" };
+
+const fontSize = computed(() => fontSizeMap[todoStore.settings.fontSize]);
 
 const onDelete = (el) => {
   if (!model.value.trim()) {
@@ -70,6 +76,8 @@ const autoResize = () => {
   border: none;
   outline: none;
   resize: none;
+
+  font-size: v-bind(fontSize);
 
   overflow: hidden;
 
