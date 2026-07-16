@@ -68,7 +68,7 @@
         <ul
           class="todo-settings__categories-list todo-settings__section-content"
         >
-          <li v-for="category in filteredCategory" :key="category.id">
+          <li v-for="category in todoStore.categoryList" :key="category.id">
             <button
               :style="{
                 color: category.color.text,
