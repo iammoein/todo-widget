@@ -269,7 +269,7 @@ const handleDeleteCategory = (id) => {
 <style lang="scss" scoped>
 .todo-settings {
   @include flex($direction: column, $align: flex-start);
-  gap: space(4);
+  gap: space(2);
 
   width: 100%;
 
