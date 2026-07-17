@@ -76,12 +76,12 @@ $transition-base: 0.5s;
     position: absolute;
     inset: 0;
 
-    height: 95%;
+    height: 100%;
 
     background-color: $hue-10;
     border-radius: $radius-3xl;
 
-    transform: translateY(105%);
+    transform: translateY(100%);
     visibility: hidden;
     pointer-events: none;
 
@@ -92,7 +92,7 @@ $transition-base: 0.5s;
     z-index: 2;
 
     &--active {
-      transform: translateY(5%);
+      transform: translateY(3%);
       visibility: visible;
       pointer-events: auto;
     }
