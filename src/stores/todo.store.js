@@ -9,27 +9,6 @@ const mockCategory = [
     key: "all",
     color: CATEGORY_COLORS[0],
   },
-  {
-    id: "signal",
-    name: "سیگنال",
-    key: "signal",
-    color: CATEGORY_COLORS[1],
-  },
-];
-
-const mockTodo = [
-  {
-    id: 1,
-    text: "hi",
-    parent: "all",
-    parentId: null,
-  },
-  {
-    id: 2,
-    text: "me",
-    parent: "signal",
-    parentId: "signal",
-  },
 ];
 
 export const useTodoStore = defineStore(
@@ -44,7 +23,7 @@ export const useTodoStore = defineStore(
     const isSetting = ref(false);
     const settings = ref({
       direction: "rtl",
-      fontSize: 'medium'
+      fontSize: "medium",
     });
 
     const addTodo = (text = "") => {
@@ -111,7 +90,7 @@ export const useTodoStore = defineStore(
 
     const selectFontSize = (size) => {
       settings.value.fontSize = size;
-    }
+    };
 
     const checkTodoEmptyItem = computed(() => {
       return todoList.value
