@@ -53,10 +53,6 @@ const todoStore = useTodoStore();
 
     z-index: 1;
 
-    // &:has(todo-container__content--overlay) {
-    //   background-color: red;
-    // }
-
     &--overlay {
       background-color: $state-layer;
     }
