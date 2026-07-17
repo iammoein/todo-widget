@@ -1,5 +1,10 @@
 <template>
   <main class="todo-container">
+    <button
+      @click="handleCloseSetting"
+      class="todo-container__overlay-button"
+      v-if="todoStore.isSetting"
+    ></button>
     <div
       class="todo-container__content"
       :class="{ 'todo-container__content--overlay': todoStore.isSetting }"
@@ -11,7 +16,6 @@
     <div
       class="todo-container__setting"
       :class="{ 'todo-container__setting--active': todoStore.isSetting }"
-      v-show="todoStore.isSetting"
     >
       <TodoSettings />
     </div>
@@ -26,9 +30,15 @@ import TodoMain from "./todo-main-content.component.vue";
 import TodoSettings from "./todo-settings.component.vue";
 
 const todoStore = useTodoStore();
+
+const handleCloseSetting = () => {
+  todoStore.isSetting = false;
+};
 </script>
 
 <style lang="scss" scoped>
+$transition-base: 0.5s;
+
 .todo-container {
   position: relative;
 
@@ -51,10 +61,14 @@ const todoStore = useTodoStore();
     position: absolute;
     inset: 0;
 
-    z-index: 1;
+    transition: background-color $transition-base ease;
+
+    z-index: 0;
 
     &--overlay {
       background-color: $state-layer;
+
+      user-select: none;
     }
   }
 
@@ -67,13 +81,20 @@ const todoStore = useTodoStore();
     background-color: $hue-10;
     border-radius: $radius-3xl;
 
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
+    transform: translateY(105%);
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      transform $transition-base ease,
+      visibility $transition-base ease;
 
     z-index: 2;
 
     &--active {
       transform: translateY(5%);
+      visibility: visible;
+      pointer-events: auto;
     }
   }
 
@@ -85,6 +106,19 @@ const todoStore = useTodoStore();
   &__main {
     flex: 1;
     overflow-y: auto;
+  }
+
+  &__overlay-button {
+    @include button-reset;
+
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+    cursor: default;
   }
 }
 </style>
