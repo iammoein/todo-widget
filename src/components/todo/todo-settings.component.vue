@@ -272,9 +272,6 @@ const handleDeleteCategory = (id) => {
   gap: space(4);
 
   width: 100%;
-  // max-height: 100%;
-
-  // overflow: hidden;
 
   &__header {
     --base-title-font-size: 16px;
