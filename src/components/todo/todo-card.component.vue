@@ -24,8 +24,8 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import TodoInput from "./todo-input.component.vue";
-import TodoCheckbox from "./todo-checkbox.component.vue";
+import TodoInput from "./input/todo-input.component.vue";
+import TodoCheckbox from "./input/todo-checkbox.component.vue";
 import { useTodoStore } from "@/stores/todo.store.js";
 
 const model = defineModel();
