@@ -28,6 +28,9 @@
             class="todo-settings__categories-item"
             :key="category.id"
           >
+            <button class="todo-settings__category-name">
+              {{ category.name }}
+            </button>
             <button
               @click="handleDeleteCategory(category.id)"
               class="todo-settings__delete-button"
@@ -37,9 +40,6 @@
                 size="5"
                 :icon="DeleteIcon"
               />
-            </button>
-            <button class="todo-settings__category-name">
-              {{ category.name }}
             </button>
           </li>
 
