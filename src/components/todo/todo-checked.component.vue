@@ -20,7 +20,7 @@
 <script setup>
 import BaseIcon from "../common/base-icon.component.vue";
 import BaseTitle from "../common/base-title.component.vue";
-import AltArrowUpIcon from "../icons/alt-arrow-up.icon.vue";
+import AltArrowUpIcon from "../icons/alt-arrow-down.icon.vue/index.js";
 </script>
 
 <style scoped lang="scss">
