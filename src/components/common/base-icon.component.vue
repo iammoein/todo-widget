@@ -23,7 +23,6 @@ const props = defineProps({
 const iconStyle = computed(() => ({
   width: typeof props.size === 'number' ? `${props.size}px` : props.size,
   height: typeof props.size === 'number' ? `${props.size}px` : props.size,
-  color: props.color,
 }))
 </script>
 
