@@ -34,12 +34,16 @@ const model = defineModel({
   }
 
   &:checked::after {
-    content: "✓";
+    content: "";
+    display: block;
+    width: rem(8);
+    height: rem(8);
 
-    color: $white;
-
-    font-weight: 600;
-    font-size: rem(12);
+    background-color: $white;
+    mask-image: url("@/assets/svg/checked-vector.svg");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
 
     transform: scale(1);
   }
