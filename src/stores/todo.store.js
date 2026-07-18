@@ -59,6 +59,17 @@ export const useTodoStore = defineStore(
       item.checked = !item.checked;
     };
 
+    const currentTodos = computed(
+      () => todoList.value.get(currentCategory.value) ?? [],
+    );
+
+    const uncheckedTodos = computed(() =>
+      currentTodos.value.filter((todo) => !todo.checked),
+    );
+
+    const checkedTodos = computed(() =>
+      currentTodos.value.filter((todo) => todo.checked),
+    );
     const selectCategory = (categoryId) => {
       currentCategory.value = categoryId;
     };
@@ -108,6 +119,8 @@ export const useTodoStore = defineStore(
       isSetting,
       checkTodoEmptyItem,
       settings,
+      checkedTodos,
+      uncheckedTodos,
 
       addTodo,
       addCategory,

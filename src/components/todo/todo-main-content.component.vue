@@ -3,7 +3,7 @@
     <transition-group name="todo-list" tag="ul" class="todo-main__list">
       <li
         class="tood-main__single-todo"
-        v-for="todo in todoStore.todoList.get(todoStore.currentCategory) || []"
+        v-for="todo in todoStore.uncheckedTodos"
         :key="todo.id"
       >
         <TodoSingle :todo="todo" />
@@ -23,6 +23,14 @@
         </li>
       </template>
     </transition-group>
+
+    <TodoChecked v-if="todoStore.checkedTodos.length">
+      <transition-group name="todo-list" tag="ul" class="todo-main__list">
+        <li v-for="checkedTodo in todoStore.checkedTodos" :key="checkedTodo.id">
+          <TodoSingle :todo="checkedTodo" />
+        </li>
+      </transition-group>
+    </TodoChecked>
   </div>
 </template>
 
@@ -32,6 +40,7 @@ import { useTodoStore } from "@/stores/todo.store.js";
 
 import TodoCategory from "./todo-category.component.vue";
 import TodoSingle from "./todo-single.component.vue";
+import TodoChecked from "./todo-checked.component.vue";
 
 const todoStore = useTodoStore();
 
@@ -66,5 +75,4 @@ const categoris = computed(() =>
   opacity: 0;
   transform: translateY(-30px);
 }
-
 </style>
