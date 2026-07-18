@@ -7,20 +7,34 @@
         title-tag="h6"
       />
       <span class="todo-checked__header-line"></span>
-      <BaseIcon
-        class="todo-checked__header-icon"
-        :icon="AltArrowUpIcon"
-        size="16"
-      />
+      <button class="todo-checked__header-button" @click="handleShowList">
+        <BaseIcon
+          class="todo-checked__header-icon"
+          :icon="isActive ? AltArrowDownIcon : AltArrowUpIcon"
+          size="16"
+        />
+      </button>
     </div>
-    <slot></slot>
+    <Transition name="collapse">
+      <div class="todo-checked__list" v-if="isActive">
+        <slot></slot>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import BaseIcon from "../common/base-icon.component.vue";
 import BaseTitle from "../common/base-title.component.vue";
-import AltArrowUpIcon from "../icons/alt-arrow-down.icon.vue/index.js";
+import AltArrowDownIcon from "../icons/alt-arrow-down.icon.vue";
+import AltArrowUpIcon from "../icons/alt-arrow-up.icon.vue";
+
+const isActive = ref(true);
+
+const handleShowList = () => {
+  isActive.value = !isActive.value;
+};
 </script>
 
 <style scoped lang="scss">
@@ -43,6 +57,10 @@ import AltArrowUpIcon from "../icons/alt-arrow-down.icon.vue/index.js";
     height: 1px;
 
     background-color: $neutral-outline;
+  }
+
+  &__header-button {
+    @include button-reset;
   }
 
   &__header-icon {
