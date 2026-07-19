@@ -407,6 +407,7 @@ const handleDeleteCategory = (id) => {
 
   &__option-button {
     @include button-reset;
+    @include flex;
 
     width: rem(36);
     height: rem(36);
