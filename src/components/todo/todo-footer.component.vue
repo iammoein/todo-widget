@@ -23,7 +23,6 @@
 <script setup>
 import { computed } from "vue";
 import { useTodoStore } from "@/stores/todo.store";
-import { useFocus } from "@/composables/use-focus.composable";
 import { useAddTodo } from "@/composables/use-add-todo.composable";
 
 import BaseIcon from "@/components/common/base-icon.component.vue";
@@ -103,6 +102,7 @@ const percentageCheckedTodo = computed(() => {
 
     transition: transform 0.1s ease-out;
     cursor: pointer;
+    z-index: 4;
 
     &:active {
       transform: scale(0.88);
