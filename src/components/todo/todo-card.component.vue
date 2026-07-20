@@ -8,7 +8,6 @@
   >
     <div class="todo-card__content">
       <TodoCheckbox
-        @checked="toggleCheckCard(todo.id)"
         v-model="todo.checked"
       />
       <TodoInput
@@ -26,7 +25,6 @@
 import { computed, ref } from "vue";
 import TodoInput from "./input/todo-input.component.vue";
 import TodoCheckbox from "./input/todo-checkbox.component.vue";
-import { useTodoStore } from "@/stores/todo.store.js";
 
 const model = defineModel();
 
@@ -46,8 +44,6 @@ const props = defineProps({
 });
 
 const inputRef = ref("");
-
-const todoStore = useTodoStore();
 
 defineExpose({
   focus() {
@@ -82,10 +78,6 @@ const handlePointerMove = (el) => {
 
 const handlePointerUp = () => {
   emit("pointer-up");
-};
-
-const toggleCheckCard = (id) => {
-  todoStore.toggleCheckedTodo(id);
 };
 
 const translateXValue = computed(() => `translateX(${props.swipeObj.x}px)`);

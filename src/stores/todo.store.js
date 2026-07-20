@@ -52,13 +52,6 @@ export const useTodoStore = defineStore(
       todoList.value.set(currentCategory.value, filtered);
     };
 
-    const toggleCheckedTodo = (id) => {
-      const item = todoList.value
-        .get(currentCategory.value)
-        .find((todo) => todo.id === id);
-      item.checked = !item.checked;
-    };
-
     const currentTodos = computed(
       () => todoList.value.get(currentCategory.value) ?? [],
     );
@@ -130,7 +123,6 @@ export const useTodoStore = defineStore(
       selectDirection,
       selectFontSize,
       getCategoryName,
-      toggleCheckedTodo,
       updateCategoryColor,
     };
   },
